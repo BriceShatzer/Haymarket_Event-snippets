@@ -1,0 +1,172 @@
+<script>
+if (typeof jQuery === 'undefined') {
+        document.write(unescape("%3Cscript src='http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js' type='text/javascript'%3E%3C/script%3E"));
+    }
+
+function eventSignup() {
+var $form = $('#catwebformform48727'); // sets form ID
+var $messagebox = $('#message'); // sets message box ID
+var $successmessage = "<h3>Thank You For Your Submission!</h3>";
+var $modalParts = [$messagebox, $('#page_modal_overlay')];
+var $errormessage = '<h3 style="color:red">An Error Has Occured - Please Try Again</h3>'; // replace with your own error message in HTML format
+function majorError(){
+    //ISSUE@
+}
+function lockForm() { $('#bookingForm_container input, #bookingForm_container select').attr('disabled', 'disabled');};
+function resetForm(){submitcount10254 = 0};
+function createModal() {
+    $messagebox.addClass('modal_window');
+    $('body').append('<div id="page_modal_overlay"></div>');
+    $.each($modalParts, function(){ $(this).fadeIn();});
+    $messagebox.css("margin-top", "-"+$messagebox.height()/2+"px");
+};
+function payOnline(){
+    //*todo: bring form into view
+    //grab previously filled in info
+    $('#BluePay_NAME').val( $('#FirstName').val()+' '+$('#LastName').val());
+    $('#BluePay_PHONE').val($('#HomePhone').val());
+    $('#BluePay_EMAIL').val($('#EmailAddress').val());
+    $('#BluePay_Addr1').val($('#HomeAddress').val());
+    $('#BluePay_CITY').val($('#HomeCity').val());
+    $('#BluePay_STATE').val($('#HomeState').val());
+    $('#BluePay_ZIPCODE').val($('#HomeZip').val());    
+    //*todo: figure out and display price
+};
+
+//*watch: variable might need to replaced with true jQuery call - $('#message')
+$messagebox
+ .on("click", '#rsvpPDF', function(){ window.open("/annual-award-luncheon_rsvp.pdf"); location.reload();} )
+ .on("click", '#payOnline' function(){ $messagebox.fadeOut('fast');})
+ .on("click", '#tryAgain' function(){location.reload();});
+
+
+
+$.ajax({
+	type: 'POST',
+	url: $form.attr('action'),
+	data: $form.serialize(), 
+	success: function (msg) { 
+        var formResponse;
+        if( !$.isPlainObject(msg) ){formResponse = $.parseJSON(msg)}
+        else{formResponse = msg}
+                console.log(formResponse);
+                        
+		        if (formResponse.FormProcessV2Response.success) {
+						var message = formResponse.FormProcessV2Response.message;
+                        lockForm();
+
+                        if( /ERROR: Booking could not be made as this email address is already registered for this booking./.search(message) ){
+                            $messagebox.append('<h2>It looks like you have already registered for this event. </h2><p style="clear:both"> Even though you\'ve told us you would like to attend, we still need to finalize your registration in order to reserve your tickets. This can be handled one of three ways</p><div style="width:28%;float:left;"><a href="#" id="payOnline">Submit a credit card payment online</a></div><div style="width:6%;float:left;">or</div><div style="width:28%;float:left;"><a href="#" id="rsvpPDF"> Mail in the printable RSVP Form </a></h1></div><div style="width:6%;float:left;">or</div><div style="width:28%;float:left;"><a href="/contact-us">Get in touch with us</a></div>');
+                            createModal()
+                        }
+                        else if ( /ERROR/.search(message) ) { //ISSUE@
+                            //$messagebox.prepend('<h2 style="color:red"> Sorry, but an error occured while you were attempting to register for this event. </h2>');  
+/*                        <p style="clear:both"> Even though you've told us you would like to attend, we still need to finalize your registration in order to reserve your tickets. This can be handled one of three ways</p>
+<div style="width:40%;float:left;"><a href="#" id="payOnline">Submit a credit card payment online</a></div>
+<div style="width:8%;float:left;">or</div>
+<div style="width:40%;float:left;"><a href="/annual-award-luncheon_rsvp.pdf" target="_blank"> Mail in the printable RSVP Form </a></h1></div>
+<div style="width:8%;float:left;">or</div>
+<div style="width:40%;float:left;"><a href="/contact">Get in touch with us</a></div>*/
+
+
+                        }
+                        else{
+
+
+                        }    
+
+                        $messagebox.append(); 
+						$messagebox.fadeIn();
+                    }
+                 else {//ISSUE@
+						$messagebox.append($errormessage); 
+						$messagebox.fadeIn();	
+                        }    
+        		},
+	error: function () {//ISSUE@
+                        $messagebox.append($errormessage); 
+                        $messagebox.fadeIn();
+						}
+     });
+}
+</script>
+<div id="message" style="display: none;"></div>
+
+
+<div class="booking-container">
+<!--
+<h1>{tag_name}</h1>
+-->
+<h1> Online Registration </h1> 
+<!--
+<p style="display: none;">
+<strong>Date: </strong><span class="date">{tag_date}</span><br />
+<strong>Capacity: </strong><span class="capacity">{tag_capacity}</span> ({tag_percentfull} booked)
+</p>
+{tag_body}
+-->
+<div id="bookingForm_container">
+<form name="catwebformform10254" onsubmit="return checkWholeForm10254(this)" action="/FormProcessv2.aspx?WebFormID=10254&amp;OID=18800&amp;OTYPE=61&amp;EID=0&amp;CID=0&amp;JSON=1" method="post" enctype="multipart/form-data" id="catwebformform10254">
+    <div class="form-container">
+    <h2>Booking</h2>
+    <p>&bull; Required</p>
+    <div class="form">
+    <div class="item">
+    <label>Title</label><br />
+    <select class="cat_dropdown_smaller" name="Title">
+    <option value="3395">DR</option>
+    <option value="3393">MISS</option>
+    <option value="3391" selected="selected">MR</option>
+    <option value="3392">MRS</option>
+    <option value="3394">MS</option>
+    </select>
+    </div>
+    <div class="item">
+    <label for="FirstName">First Name</label><br />
+    <input class="cat_textbox" maxlength="255" name="FirstName" id="FirstName" />&nbsp;&bull;
+    </div>
+    <div class="item">
+    <label for="LastName">Last Name</label><br />
+    <input class="cat_textbox" maxlength="255" name="LastName" id="LastName" />&nbsp;&bull;
+    </div>
+    <div class="item">
+    <label for="EmailAddress">Email</label><br />
+    <input class="cat_textbox" maxlength="255" name="EmailAddress" id="EmailAddress" />&nbsp;&bull;
+    </div>
+    <div class="item">
+    <label for="BookingAllocation">Number of Seats</label><br />
+    <input class="cat_textbox" id="BookingAllocation" name="BookingAllocation" />&nbsp;&bull;
+    </div>
+    <div class="item">
+    <input class="cat_button" id="catwebformbutton" type="submit" value="Submit" />
+    </div>
+    </div>
+    <div class="error">{module_error}</div>
+    <script type="text/javascript" src="/CatalystScripts/ValidationFunctions.js"></script>
+    <script type="text/javascript">
+    //<![CDATA[
+    var submitcount48727 = 0;
+    function checkWholeForm48727(theForm){var why = "";
+        if (theForm.FirstName) why += isEmpty(theForm.FirstName.value, "First Name");
+        if (theForm.LastName) why += isEmpty(theForm.LastName.value, "Last Name"); 
+        if (theForm.EmailAddress) why += checkEmail(theForm.EmailAddress.value); 
+        if (theForm.BookingAllocation) why += isNumber(theForm.BookingAllocation.value);
+        if(why != ""){alert(why);return false;}
+        if(submitcount48727 == 0){submitcount48727++;
+            eventSignup();
+            return false;
+        }
+        else{
+            alert("Form submission is in progress.");
+            return false;
+        }
+    }
+    //]]>
+    </script>
+    </div>
+    <!-- END .form-container -->
+</form>
+</div>
+<div class="go-back">{module_referreraddress,,Go Back}</div>
+</div>
+<!-- END .booking-container -->

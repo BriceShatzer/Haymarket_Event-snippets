@@ -1,0 +1,41 @@
+Adding a job department to the employment application:
+
+1. Create a Category for the new department within BC's site-wide classification/category system. 
+	- go to Admin>Site Settings>Categories 
+	- on this page find the Category called "Job Categories" 
+	- right click and select "Add sub-category to this category"
+	- enter the new job department's name into the "Category Name" field and click save
+	- after saving you are taken back to the full list of categories. Click the "+" next to "Job Categories" to display all of the sub-categories within that category. In this list of sub-categories, find the one that you just created and left click on it. 
+	- This will take you a page which allows you to edit/delete the category. Within the url of the page, find the CategoryID and write it down for use later.(For this url: "http://www.hcenter.org/AdminConsole/#!/Admin/Categories_Details.aspx?CategoryID=65954" the CategoryID is "65954")
+
+2. Update the "Create New Job Listing Page" to allow users to create new job listings within that department.
+	- On the site find the page "/pages/about_us/new-job-listing.htm"
+	- In the middle of the html, there is a series of checkboxes corresponding to all of the different possible departments that a job could be created for. They will look like this:
+		<input name="CAT_Category" type="checkbox" value="65359" />Human Resources <br />
+	- Create a checkbox for the newly created department within the list using the established pattern of the CategoryID in the value field and the name of the department between the <input /> and <br /> tags. 
+		(the example from above would look like this: 
+		<input name="CAT_Category" type="checkbox" value="65954" />New Deparment <br />) 
+	*note: this can be done via ftp or through BC in Admin>Site Manager>Pages(if doing the update in BC be sure to use the "HTML" view)
+
+3. Update the "Edit Existing item template" to allow users to add existing jobs to the new department
+	- go to Admin>Site Manager and click on the Web App Layouts 
+	- select "Employment"
+	- Within the "Choose Layout" drop down select "Edit Layout"
+	- Set the "Template Content" area to "HTML" view and add the new department to the list of existing checkboxes like was done in step 2.  
+
+4. Update the "Employment Page" 
+
+- Using the other departs as template, add the new department to this list in it's proper alphabetical location. 
+
+the example from above would look like this:
+
+<div class="department">
+<h3 style="text-align: center;">New Department</h3>
+{module_webapps,19784,c,65954,,,true,,,}
+</div>
+
+5. Test
+login(lower right) username:haymarket password:3122267984
+Create a new listing for the newly created department.
+	Does it show up on the list employment page? In the right location? 
+	Does it show up 
